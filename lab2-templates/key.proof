@@ -1,0 +1,159 @@
+\profile "Java Profile";
+
+\settings {
+"#Proof-Settings-Config-File
+#Sat Jul 16 09:20:25 CEST 2022
+[SMTSettings]maxGenericSorts=2
+[SMTSettings]instantiateHierarchyAssumptions=true
+[SMTSettings]UseBuiltUniqueness=false
+[StrategyProperty]QUANTIFIERS_OPTIONS_KEY=QUANTIFIERS_NON_SPLITTING_WITH_PROGS
+[StrategyProperty]SPLITTING_OPTIONS_KEY=SPLITTING_DELAYED
+[StrategyProperty]QUERYAXIOM_OPTIONS_KEY=QUERYAXIOM_ON
+[StrategyProperty]DEP_OPTIONS_KEY=DEP_ON
+[Strategy]Timeout=-1
+[StrategyProperty]USER_TACLETS_OPTIONS_KEY3=USER_TACLETS_OFF
+[StrategyProperty]USER_TACLETS_OPTIONS_KEY2=USER_TACLETS_OFF
+[StrategyProperty]USER_TACLETS_OPTIONS_KEY1=USER_TACLETS_OFF
+[StrategyProperty]OSS_OPTIONS_KEY=OSS_ON
+[Choice]DefaultChoices=assertions-assertions\\:safe , initialisation-initialisation\\:disableStaticInitialisation , intRules-intRules\\:arithmeticSemanticsIgnoringOF , programRules-programRules\\:Java , runtimeExceptions-runtimeExceptions\\:ban , JavaCard-JavaCard\\:off , Strings-Strings\\:on , modelFields-modelFields\\:treatAsAxiom , bigint-bigint\\:on , sequences-sequences\\:on , moreSeqRules-moreSeqRules\\:off , reach-reach\\:on , integerSimplificationRules-integerSimplificationRules\\:full , permissions-permissions\\:off , wdOperator-wdOperator\\:L , wdChecks-wdChecks\\:off , mergeGenerateIsWeakeningGoal-mergeGenerateIsWeakeningGoal\\:off , javaLoopTreatment-javaLoopTreatment\\:efficient , methodExpansion-methodExpansion\\:modularOnly
+[StrategyProperty]METHOD_OPTIONS_KEY=METHOD_CONTRACT
+[StrategyProperty]INF_FLOW_CHECK_PROPERTY=INF_FLOW_CHECK_FALSE
+[Strategy]ActiveStrategy=JavaCardDLStrategy
+[StrategyProperty]CLASS_AXIOM_OPTIONS_KEY=CLASS_AXIOM_FREE
+[SMTSettings]useConstantsForBigOrSmallIntegers=true
+[StrategyProperty]VBT_PHASE=VBT_SYM_EX
+[StrategyProperty]SYMBOLIC_EXECUTION_ALIAS_CHECK_OPTIONS_KEY=SYMBOLIC_EXECUTION_ALIAS_CHECK_NEVER
+[SMTSettings]integersMinimum=-2147483645
+[SMTSettings]invariantForall=false
+[StrategyProperty]BLOCK_OPTIONS_KEY=BLOCK_CONTRACT_INTERNAL
+[StrategyProperty]QUERY_NEW_OPTIONS_KEY=QUERY_OFF
+[Labels]UseOriginLabels=true
+[SMTSettings]integersMaximum=2147483645
+[SMTSettings]useUninterpretedMultiplication=true
+[StrategyProperty]MPS_OPTIONS_KEY=MPS_MERGE
+[Strategy]MaximumNumberOfAutomaticApplications=10000
+[StrategyProperty]AUTO_INDUCTION_OPTIONS_KEY=AUTO_INDUCTION_OFF
+[StrategyProperty]STOPMODE_OPTIONS_KEY=STOPMODE_DEFAULT
+[SMTSettings]SelectedTaclets=
+[StrategyProperty]NON_LIN_ARITH_OPTIONS_KEY=NON_LIN_ARITH_NONE
+[StrategyProperty]LOOP_OPTIONS_KEY=LOOP_SCOPE_INV_TACLET
+[SMTSettings]explicitTypeHierarchy=false
+[StrategyProperty]SYMBOLIC_EXECUTION_NON_EXECUTION_BRANCH_HIDING_OPTIONS_KEY=SYMBOLIC_EXECUTION_NON_EXECUTION_BRANCH_HIDING_OFF
+"
+}
+
+\sorts {
+    S;
+}
+
+\functions {
+    S f(S);
+}
+
+\predicates {
+    a(S);
+    b(S);
+    g(S, S);
+}
+
+\problem {
+     \forall S x; g(x, x)
+   & \forall S x;
+       ((a(x) -> b(f(x))) & (b(x) -> a(f(x))))
+   & \forall S x;
+       \forall S y; (a(x) & b(y) -> !g(x, y))
+->   (   \exists S x; b(x)
+      -> \exists S x; \exists S y; !g(f(x), y))
+   & \forall S x; !(a(x) & b(x))
+
+}
+
+\proof {
+(keyLog "0" (keyUser "huyki" ) (keyVersion "3ddfc1d216"))
+(keyLog "1" (keyUser "huyki" ) (keyVersion "3ddfc1d216"))
+
+(autoModeTime "0")
+
+(branch "dummy ID"
+(rule "impRight" (formula "1") (userinteraction))
+(rule "andLeft" (formula "1") (userinteraction))
+(rule "andLeft" (formula "1") (userinteraction))
+(rule "andRight" (formula "4") (userinteraction))
+(branch "Case 1"
+   (rule "impRight" (formula "4") (userinteraction))
+   (rule "exLeft" (formula "1") (inst "sk=x_0") (userinteraction))
+   (rule "commute_and" (formula "3") (term "0") (userinteraction))
+   (rule "allLeft" (formula "3") (inst "t=x_0") (userinteraction))
+   (rule "andLeft" (formula "3") (userinteraction))
+   (rule "impLeft" (formula "3") (userinteraction))
+   (branch "Case 1"
+      (rule "close" (formula "6") (ifseqformula "1") (userinteraction))
+   )
+   (branch "Case 2"
+      (rule "impLeft" (formula "4") (userinteraction))
+      (branch "Case 1"
+         (rule "allLeft" (formula "5") (inst "t=f(x_0)") (userinteraction))
+         (rule "allLeft" (formula "5") (inst "t=x_0") (userinteraction))
+         (rule "impLeft" (formula "5") (userinteraction))
+         (branch "Case 1"
+            (rule "andRight" (formula "7") (userinteraction))
+            (branch "Case 1"
+               (rule "close" (formula "7") (ifseqformula "3") (userinteraction))
+            )
+            (branch "Case 2"
+               (rule "close" (formula "7") (ifseqformula "1") (userinteraction))
+            )
+         )
+         (branch "Case 2"
+            (rule "exRight" (formula "9") (inst "t=x_0") (userinteraction))
+            (rule "exRight" (formula "9") (inst "t=x_0") (userinteraction))
+            (rule "closeAntec" (formula "5") (ifseqformula "9") (userinteraction))
+         )
+      )
+      (branch "Case 2"
+         (rule "allLeft" (formula "6") (inst "t=f(x_0)") (userinteraction))
+         (rule "allLeft" (formula "6") (inst "t=f(x_0)") (userinteraction))
+         (rule "impLeft" (formula "6") (userinteraction))
+         (branch "Case 1"
+            (rule "andRight" (formula "8") (userinteraction))
+            (branch "Case 1"
+               (rule "close" (formula "8") (ifseqformula "3") (userinteraction))
+            )
+            (branch "Case 2"
+               (rule "close" (formula "8") (ifseqformula "4") (userinteraction))
+            )
+         )
+         (branch "Case 2"
+            (rule "exRight" (formula "9") (inst "t=x_0") (userinteraction))
+            (rule "exRight" (formula "9") (inst "t=f(x_0)") (userinteraction))
+            (rule "close" (formula "9") (ifseqformula "6") (userinteraction))
+         )
+      )
+   )
+)
+(branch "Case 2"
+   (rule "allRight" (formula "4") (inst "sk=x_0") (userinteraction))
+   (rule "allLeft" (formula "1") (inst "t=x_0") (userinteraction))
+   (rule "allLeft" (formula "4") (inst "t=x_0") (userinteraction))
+   (rule "allLeft" (formula "4") (inst "t=x_0") (userinteraction))
+   (rule "impLeft" (formula "4") (userinteraction))
+   (branch "Case 1"
+      (rule "andRight" (formula "6") (userinteraction))
+      (branch "Case 1"
+         (rule "notRight" (formula "7") (userinteraction))
+         (rule "andLeft" (formula "1") (userinteraction))
+         (rule "closeAntec" (formula "1") (ifseqformula "8") (userinteraction))
+      )
+      (branch "Case 2"
+         (rule "notRight" (formula "7") (userinteraction))
+         (rule "andLeft" (formula "1") (userinteraction))
+         (rule "closeAntec" (formula "2") (ifseqformula "8") (userinteraction))
+      )
+   )
+   (branch "Case 2"
+      (rule "notLeft" (formula "4") (userinteraction))
+      (rule "close" (formula "6") (ifseqformula "1") (userinteraction))
+   )
+)
+)
+}
